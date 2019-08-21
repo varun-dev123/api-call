@@ -11,3 +11,24 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+
+h1,h2,h3,h4,h5,h6,p{margin: 0;}
+
+ul,li{list-style-type: none; margin:0; padding:0;}
+.header{
+  background-color: #f7f7f7;
+  padding:10px;
+}
+.nav-list{
+  display: flex;
+  justify-content: flex-end;
+  align-self: center;
+  align-items: center
+}
+
+.mainContent{padding: 30px 0;}
+
+.footer{padding: 10px; background-color: #333; }
+
+.footer p{margin-bottom: 0; color: #999}
