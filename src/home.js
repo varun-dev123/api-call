@@ -16,13 +16,13 @@ class Home extends Component {
         <h1>Home</h1>
         <p>Thisi is shome apge </p>
         <p>
-          <Link to="/customer">Customer</Link>
-          <Link to="/budget">Employee</Link>
+          <Link to="/home/customer">Customer</Link>
+          <Link to="/home/budget">Employee</Link>
         </p>
         <div>
           <Switch>
-            <Route path="/customer" component={Customer} />
-            <Route path="/path" component={Budget} />
+            <Route exact path="/home/customer" component={Customer} />
+            <Route exact path="/home/budget" component={Budget} />
           </Switch>
         </div>
       </div>
