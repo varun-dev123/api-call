@@ -1,58 +1,44 @@
 import React, { Component } from "react";
+import Counter from "./counter/counter";
 
 class About extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      count: 0
+      counters: [
+        { id: 1, value: 0 },
+        { id: 2, value: 1 },
+        { id: 3, value: 0 },
+        { id: 4, value: 1 },
+        { id: 5, value: 0 }
+      ]
     };
   }
 
-  countHandlerDec = () => {
-    this.setState({
-      count: this.state.count - 1
-    });
-  };
-
-  countHandler = () => {
-    this.setState({
-      count: this.state.count + 1
-    });
+  handelDelete = counterId => {
+    // console.log("The even11t will call here.", counterId);
+    const counters = this.state.counters.filter(c => c.id !== counterId);
+    //console.log(counters);
+    this.setState({ counters });
   };
 
   render() {
+    const { counters } = this.state;
+    const counter = counters.map(counter => (
+      <Counter
+        key={counter.id}
+        counter={counter}
+        onDelete={this.handelDelete}
+      />
+    ));
     return (
       <div>
         <h1>About</h1>
         <p>Lore tis is about page</p>
-        <h3>
-          <span className={this.getStatus()}>{this.countChanger()}</span>
-          <button
-            className="btn btn-success btn-sm"
-            onClick={this.countHandlerDec}
-          >
-            Increment
-          </button>
-          <button
-            className="ml-3 btn btn-danger btn-sm"
-            onClick={this.countHandler}
-          >
-            Decrement
-          </button>
-        </h3>
+        <button className="btn btn-dark btn-sm my-2">Reset</button>
+        {counter}
       </div>
     );
-  }
-
-  countChanger() {
-    const { count } = this.state;
-    return count === 0 ? "Zero" : count;
-  }
-
-  getStatus() {
-    let getStatus = "mr-3 badge badge-";
-    getStatus += this.state.count === 0 ? "warning" : "success";
-    return getStatus;
   }
 }
 
