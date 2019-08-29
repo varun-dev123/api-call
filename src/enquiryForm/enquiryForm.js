@@ -8,7 +8,8 @@ class EnquiryForm extends Component {
       contact: "",
       email: "",
       address: "",
-      isFriendly: true
+      isFriendly: "",
+      items: []
     };
   }
 
@@ -18,25 +19,43 @@ class EnquiryForm extends Component {
       ? this.setState({ [name]: checked })
       : this.setState({ [name]: value });
   };
+
   handelSubmit = event => {
     event.preventDefault();
-    const data = this.state;
-    console.log("data", data);
-    // const data = this.state;
-    // const post = [];
-    // const v = data.push(post);
-    // console.log(v);
+    const newItem = {
+      name: this.state.name,
+      contact: this.state.contact,
+      email: this.state.email,
+      address: this.state.address,
+      isFriendly: this.state.isFriendly
+    };
+
+    this.setState({ items: [...this.state.items, newItem] });
+
+    this.setState({
+      name: "",
+      contact: "",
+      email: "",
+      address: "",
+      isFriendly: ""
+    });
   };
 
-  // addItem = () => {
-  //   const post = [];
-  //   post.push(data);
-  //   console.log("data", this.post);
-  // };
+  isFriendlyStatus() {
+    const { isFriendly } = this.state;
+    let colorStatus = "isFriendly ";
+    colorStatus += isFriendly === true ? "yes" : "no";
+
+    return colorStatus;
+  }
+
+  isFriendlyValue() {
+    const { isFriendly } = this.state;
+    return isFriendly === true ? "Yes" : "No";
+  }
 
   render() {
-    const { name, contact, isFriendly, address, email } = this.state;
-
+    const { name, contact, isFriendly, address, email, items } = this.state;
     return (
       <div className="row">
         <div className="col-md-4">
@@ -51,7 +70,7 @@ class EnquiryForm extends Component {
                 name="name"
                 value={this.state.name}
               />
-              <p>{name}</p>
+              {/* <p>{name}</p> */}
             </div>
             <div className="form-group">
               <label>Contact</label>
@@ -59,9 +78,10 @@ class EnquiryForm extends Component {
                 type="text"
                 className="form-control"
                 name="contact"
+                value={this.state.contact}
                 onChange={this.handelChange}
               />
-              <p>{contact}</p>
+              {/* <p>{contact}</p> */}
             </div>
             <div className="form-group">
               <label htmlFor="isFriendly">
@@ -69,32 +89,35 @@ class EnquiryForm extends Component {
                   type="checkbox"
                   name="isFriendly"
                   id="isFriendly"
+                  value={isFriendly === true ? "Yes" : "No"}
                   className="mr-2"
                   checked={this.state.isFriendly}
                   onChange={this.handelChange}
                 />
                 IsFriendly
-                {isFriendly === true ? <b> Yes</b> : <b> No</b>}
               </label>
             </div>
             <div className="form-group">
               <label>Email</label>
               <input
                 type="text"
-                onChange={this.handelChange}
-                className="form-control"
                 name="email"
+                className="form-control"
+                value={this.state.email}
+                onChange={this.handelChange}
               />
-              <p>{email}</p>
+              {/* <p>{email}</p> */}
             </div>
             <div className="form-group">
               <label>Address</label>
               <textarea
+                type="text"
                 className="form-control"
                 name="address"
+                value={this.state.address}
                 onChange={this.handelChange}
               />
-              <p>{address}</p>
+              {/* <p>{address}</p> */}
             </div>
             <div className="form-group">
               <button
@@ -107,6 +130,20 @@ class EnquiryForm extends Component {
           </form>
         </div>
         <div className="col-md-8">
+          <div className="card-block">
+            <h1 className="title">{name}</h1>
+            <p className="sub-title">{email}</p>
+            <p className="sub-title">{contact}</p>
+            <p>
+              <span>{address}</span>
+            </p>
+            <p className={this.isFriendlyStatus()}>{this.isFriendlyValue()}</p>
+            {/* {isFriendly === true ? (
+              <span className="isFriendly yes">Yes</span>
+            ) : (
+              <span className="isFriendly no">No</span>
+            )} */}
+          </div>
           <table className="table table-bordered">
             <thead>
               <tr>
@@ -118,13 +155,23 @@ class EnquiryForm extends Component {
               </tr>
             </thead>
             <tbody>
-              {/* <tr>
-                <td>{data.name}</td>
-                <td>{data.contact}</td>
-                <td>{data.isFriendly}</td>
-                <td>{data.email}</td>
-                <td>{data.address}</td>
-              </tr> */}
+              {items.map((item, index) => (
+                <tr key={index}>
+                  <td>{item.name}</td>
+                  <td>{item.contact}</td>
+                  <td>{item.isFriendly === true ? "Yes" : "No"}</td>
+                  <td>{item.email}</td>
+                  <td>
+                    {item.address === "" ? (
+                      <button className="btn btn-primary btn-sm">
+                        Add Address
+                      </button>
+                    ) : (
+                      item.address
+                    )}
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
